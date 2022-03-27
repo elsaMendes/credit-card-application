@@ -1,11 +1,7 @@
 package com.example.creditcardapplication.repository;
 
 import com.example.creditcardapplication.model.CreditCard;
+import org.springframework.data.repository.CrudRepository;
 
-import java.util.List;
-
-public interface CreditCardRepository {
-    CreditCard addNew(CreditCard creditCard);
-
-    List<CreditCard> getAll();
+public interface CreditCardRepository extends CrudRepository<CreditCard, Long> {
 }

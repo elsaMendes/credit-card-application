@@ -1,19 +1,35 @@
 package com.example.creditcardapplication.controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.example.creditcardapplication.model.CreditCard;
+import com.example.creditcardapplication.service.CreditCardService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @RestController("creditCardController")
 public class CreditCardController {
 
-    @GetMapping("/creditcard/getAll")
-    public String getAll() {
-        return "get All";
+    private CreditCardService creditCardService;
+
+    @Autowired
+    public CreditCardController(CreditCardService creditCardService) {
+        this.creditCardService = creditCardService;
     }
 
-    @PostMapping("/creditcard/addNew")
-    public String addNew() {
-        return "add New";
+    @GetMapping("/creditcards")
+    public ResponseEntity<List<CreditCard>> getAll() {
+        List<CreditCard> creditCardList = creditCardService.getAll();
+        ResponseEntity<List<CreditCard>> responseEntity = new ResponseEntity<>(creditCardList, HttpStatus.OK);
+        return responseEntity;
+    }
+
+    @PostMapping("/creditcards")
+    public ResponseEntity<CreditCard> addNew(@RequestBody CreditCard creditCard) {
+        CreditCard creditcardAdded = creditCardService.addNew(creditCard);
+        ResponseEntity<CreditCard> responseEntity = new ResponseEntity<>(creditcardAdded, HttpStatus.CREATED);
+        return responseEntity;
     }
 }

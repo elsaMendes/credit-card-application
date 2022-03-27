@@ -1,28 +1,40 @@
 package com.example.creditcardapplication.model;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 import java.time.LocalDate;
 
+@Entity
 public class CreditCard {
+
+    @Id
+    @GeneratedValue
+    private long id;
 
     private String name;
     private String number;
     private LocalDate expireDate;
     private LocalDate issueDate;
     private int securityCode;
-    private int limit;
+    private int cardLimit;
     private int balance;
 
     public CreditCard() {
     }
 
-    public CreditCard(String name, String number, LocalDate expireDate, LocalDate issueDate, int securityCode, int limit, int balance) {
+    public CreditCard(String name, String number, LocalDate expireDate, LocalDate issueDate, int securityCode, int cardLimit, int balance) {
         this.name = name;
         this.number = number;
         this.expireDate = expireDate;
         this.issueDate = issueDate;
         this.securityCode = securityCode;
-        this.limit = limit;
+        this.cardLimit = cardLimit;
         this.balance = balance;
+    }
+
+    public long getId() {
+        return id;
     }
 
     public String getName() {
@@ -45,23 +57,56 @@ public class CreditCard {
         return securityCode;
     }
 
-    public int getLimit() {
-        return limit;
+    public int getCardLimit() {
+        return cardLimit;
     }
 
     public int getBalance() {
         return balance;
     }
 
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public void setExpireDate(LocalDate expireDate) {
+        this.expireDate = expireDate;
+    }
+
+    public void setIssueDate(LocalDate issueDate) {
+        this.issueDate = issueDate;
+    }
+
+    public void setSecurityCode(int securityCode) {
+        this.securityCode = securityCode;
+    }
+
+    public void setCardLimit(int cardLimit) {
+        this.cardLimit = cardLimit;
+    }
+
+    public void setBalance(int balance) {
+        this.balance = balance;
+    }
+
     @Override
     public String toString() {
         return "CreditCard{" +
-                "name='" + name + '\'' +
-                ", number=" + number +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
                 ", expireDate=" + expireDate +
                 ", issueDate=" + issueDate +
                 ", securityCode=" + securityCode +
-                ", limit=" + limit +
+                ", cardLimit=" + cardLimit +
                 ", balance=" + balance +
                 '}';
     }
