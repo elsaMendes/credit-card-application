@@ -6,6 +6,8 @@ import com.example.creditcardapplication.exception.InvalidCreditCardStartBalance
 import com.example.creditcardapplication.model.CreditCard;
 import com.example.creditcardapplication.repository.CreditCardRepository;
 import com.example.creditcardapplication.util.LuhnTen;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +17,7 @@ import java.util.List;
 @Service("creditCardService")
 public class CreditCardServiceImpl implements CreditCardService {
 
+    private Logger logger = LoggerFactory.getLogger(CreditCardServiceImpl.class);
     private CreditCardRepository creditCardRepository;
 
     @Autowired
@@ -24,9 +27,12 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public CreditCard addNew(CreditCard creditCard) {
+
         if (invalidCardNumber(creditCard.getNumber())) {
+            logger.error("Invalid Credit Card Number Exception: " + creditCard.getNumber());
             throw new InvalidCreditCardNumberException("Invalid Credit Card Number Exception: " + creditCard.getNumber());
         } if (invalidStartBalance(creditCard.getBalance())) {
+            logger.error("Start balance should be 0, invalid value: " + creditCard.getBalance());
             throw new InvalidCreditCardStartBalanceException("Start balance should be 0, invalid value: " + creditCard.getBalance());
         }
         return creditCardRepository.save(creditCard);

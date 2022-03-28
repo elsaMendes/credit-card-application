@@ -2,6 +2,7 @@ package com.example.creditcardapplication.model;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
 
@@ -9,7 +10,7 @@ import java.time.LocalDate;
 public class CreditCard {
 
     @Id
-    @GeneratedValue
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
 
     private String name;

@@ -6,14 +6,30 @@ This is a small Credit Card Application that exposes to endpoits to create and r
 ## Getting Started
 
 ### Build and run the project
-#### docker build -t springio/creditcard-application .
-#### docker run -p 8080:8080 springio/creditcard-application:latest
+```docker
+mvn clean package
+docker build -t springio/creditcard-application .
+docker run -p 8080:8080 springio/creditcard-application:latest
+```
 
 ### Create Credit Card
-#### http://localhost:8080/creditcards
+```curl
+curl --location --request POST 'http://localhost:8080/v1.0/api/creditcards/' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+"name": "Test 1",
+"number": "4847352989263094",
+"expireDate": "2023-05-23",
+"issueDate": "2023-05-23",
+"securityCode": 222,
+"limit": 5000,
+"balance": 0
+}'
+```
 
 ### Get Credit Cards
-#### http://localhost:8080/creditcards
-
-## Authors
+```curl
+curl --location --request GET 'http://localhost:8080/v1.0/api/creditcards/
+```
+## Author
 * **Elsa Mendes** - https://github.com/elsaMendes
