@@ -1,7 +1,9 @@
 package com.example.creditcardapplication.util;
 
 
+import org.springframework.stereotype.Component;
 
+@Component
 public class LuhnTen {
 
     public static boolean validate(String number){
