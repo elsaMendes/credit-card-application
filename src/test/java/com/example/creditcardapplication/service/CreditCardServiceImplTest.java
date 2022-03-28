@@ -1,6 +1,7 @@
 package com.example.creditcardapplication.service;
 
 import com.example.creditcardapplication.exception.InvalidCreditCardNumberException;
+import com.example.creditcardapplication.exception.InvalidCreditCardStartBalanceException;
 import com.example.creditcardapplication.model.CreditCard;
 import com.example.creditcardapplication.repository.CreditCardRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -43,7 +44,7 @@ class CreditCardServiceImplTest {
             LocalDate expire = LocalDate.of(2023, 2, 23);
             LocalDate issue = LocalDate.of(2019, 2, 23);
             validCreditCard = new CreditCard("Elsa Mendes", "4847352989263094", expire,
-                    issue, 333, 2000, 700);
+                    issue, 333, 2000, 0);
         }
 
         @DisplayName("When addNew, it should return created creditCard object")
@@ -70,6 +71,17 @@ class CreditCardServiceImplTest {
 
             assertEquals(1, creditCardService.getAll().size());
             assertEquals(0, validCreditCard.getId());
+        }
+
+        @DisplayName("When adding CreditCard with balance greater than zero, it should throw an Exception")
+        @Test
+        void addNewInvalidCreditCardWithInitialBalanceGreaterThanZero_ShouldThrowException() {
+            validCreditCard.setBalance(100);
+            Exception exception = assertThrows(InvalidCreditCardStartBalanceException.class, () -> creditCardService.addNew(validCreditCard));
+
+            String expectedMessage = "Start balance should be 0, invalid value: " + validCreditCard.getBalance();
+            assertEquals(expectedMessage, exception.getMessage());
+
         }
     }
 

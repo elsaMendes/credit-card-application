@@ -29,7 +29,7 @@ class CreditCardApplicationTests {
 	@BeforeEach
 	public void setUp() {
 		validCreditCard = new CreditCard("Elsa Mendes", "4847352989263094", LocalDate.of(2023, 2, 23),
-				LocalDate.of(2019, 2, 23), 333, 2000, 700);
+				LocalDate.of(2019, 2, 23), 333, 2000, 0);
 	}
 
 
@@ -51,13 +51,28 @@ class CreditCardApplicationTests {
 
 	@Test
 	@DisplayName("Given an invalid credit card number, it should return exception")
-	void givenValidCreditCard_thenStatus201_created() {
+	void givenInvalidCreditCard_thenStatus406_notAcceptable() {
 
+		//setting invalid Credit card number
 		validCreditCard.setNumber("11111111111");
 
 		ResponseEntity<CreditCard> responseEntity = creditCardController.addNew(validCreditCard);
 		assertEquals(HttpStatus.NOT_ACCEPTABLE, responseEntity.getStatusCode());
 		String expectedErrorMessage = "Invalid Credit Card Number Exception: " + validCreditCard.getNumber();
+		assertEquals(expectedErrorMessage , responseEntity.getBody());
+
+	}
+
+	@Test
+	@DisplayName("Given an invalid balance, it should return exception")
+	void givenValidCreditCardWithBalanceGreaterThanZero_thenStatus406_notAcceptable() {
+
+		//Adding invalid starting balance
+		validCreditCard.setBalance(200);
+
+		ResponseEntity<CreditCard> responseEntity = creditCardController.addNew(validCreditCard);
+		assertEquals(HttpStatus.NOT_ACCEPTABLE, responseEntity.getStatusCode());
+		String expectedErrorMessage = "Start balance should be 0, invalid value: " + validCreditCard.getBalance();
 		assertEquals(expectedErrorMessage , responseEntity.getBody());
 
 	}

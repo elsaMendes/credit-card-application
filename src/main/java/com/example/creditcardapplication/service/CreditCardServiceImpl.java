@@ -2,6 +2,7 @@ package com.example.creditcardapplication.service;
 
 
 import com.example.creditcardapplication.exception.InvalidCreditCardNumberException;
+import com.example.creditcardapplication.exception.InvalidCreditCardStartBalanceException;
 import com.example.creditcardapplication.model.CreditCard;
 import com.example.creditcardapplication.repository.CreditCardRepository;
 import com.example.creditcardapplication.util.LuhnTen;
@@ -23,11 +24,20 @@ public class CreditCardServiceImpl implements CreditCardService {
 
     @Override
     public CreditCard addNew(CreditCard creditCard) {
-        if (LuhnTen.validate(creditCard.getNumber())) {
-            return creditCardRepository.save(creditCard);
-        } else {
+        if (invalidCardNumber(creditCard.getNumber())) {
             throw new InvalidCreditCardNumberException("Invalid Credit Card Number Exception: " + creditCard.getNumber());
+        } if (invalidStartBalance(creditCard.getBalance())) {
+            throw new InvalidCreditCardStartBalanceException("Start balance should be 0, invalid value: " + creditCard.getBalance());
         }
+        return creditCardRepository.save(creditCard);
+    }
+
+    private boolean invalidCardNumber(String number) {
+        return !LuhnTen.validate(number);
+    }
+
+    private boolean invalidStartBalance(int balance) {
+        return balance != 0;
     }
 
     @Override

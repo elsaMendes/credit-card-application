@@ -1,6 +1,7 @@
 package com.example.creditcardapplication.controller;
 
 import com.example.creditcardapplication.exception.InvalidCreditCardNumberException;
+import com.example.creditcardapplication.exception.InvalidCreditCardStartBalanceException;
 import com.example.creditcardapplication.model.CreditCard;
 import com.example.creditcardapplication.service.CreditCardService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +35,8 @@ public class CreditCardController {
             return new ResponseEntity<>(creditcardAdded, HttpStatus.CREATED);
         } catch (InvalidCreditCardNumberException e) {
             return handleInvalidCreditCardException(e);
+        } catch (InvalidCreditCardStartBalanceException e) {
+            return handleInvalidCreditCardException(e);
         }
     }
 
@@ -41,4 +44,10 @@ public class CreditCardController {
     public ResponseEntity handleInvalidCreditCardException(InvalidCreditCardNumberException invalidCreditCardNumberException) {
         return new ResponseEntity(invalidCreditCardNumberException.getMessage(), HttpStatus.NOT_ACCEPTABLE);
     }
+
+    @ExceptionHandler
+    public ResponseEntity handleInvalidCreditCardException(InvalidCreditCardStartBalanceException invalidCreditCardStartBalanceException) {
+        return new ResponseEntity(invalidCreditCardStartBalanceException.getMessage(), HttpStatus.NOT_ACCEPTABLE);
+    }
+
 }
