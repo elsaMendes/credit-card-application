@@ -1,7 +1,7 @@
 
 # Springboot Dockerized Credit Card Application 
 
-This is a small Credit Card Application that exposes to endpoits to create and retrieve credit cards.
+This is a small Credit Card Application that exposes two endpoits to create and retrieve credit cards.
 
 ## Getting Started
 
