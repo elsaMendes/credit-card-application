@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController("creditCardController")
+@RequestMapping("/creditcards")
 public class CreditCardController {
 
     private CreditCardService creditCardService;
@@ -21,14 +22,14 @@ public class CreditCardController {
         this.creditCardService = creditCardService;
     }
 
-    @GetMapping("/creditcards")
+    @GetMapping("/")
     public ResponseEntity<List<CreditCard>> getAll() {
         List<CreditCard> creditCardList = creditCardService.getAll();
         ResponseEntity<List<CreditCard>> responseEntity = new ResponseEntity<>(creditCardList, HttpStatus.OK);
         return responseEntity;
     }
 
-    @PostMapping("/creditcards")
+    @PostMapping("/")
     public ResponseEntity<CreditCard> addNew(@RequestBody CreditCard creditCard) {
         try {
             CreditCard creditcardAdded = creditCardService.addNew(creditCard);
